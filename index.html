@@ -1,0 +1,507 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Resume Builder</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <h1>Dynamic Resume Builder</h1>
+    <div class="container">
+      <div class="input-section">
+        <div class="section">
+          <h2 class="section-title">Personal Information</h2>
+          <input type="text" id="fullName" placeholder="Full Name" />
+          <input type="email" id="email" placeholder="Email" />
+          <input type="tel" id="phone" placeholder="Phone" />
+          <input type="text" id="location" placeholder="Location" />
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Professional Summary</h2>
+          <textarea
+            id="summary"
+            placeholder="Write a brief professional summary..."
+          ></textarea>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Work Experience</h2>
+          <div id="experienceInputs" class="dynamic-inputs"></div>
+          <button onclick="addExperience()">Add Experience</button>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Education</h2>
+          <div id="educationInputs" class="dynamic-inputs"></div>
+          <button onclick="addEducation()">Add Education</button>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Certifications</h2>
+          <div id="certificationInputs" class="dynamic-inputs"></div>
+          <button onclick="addCertification()">Add Certification</button>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title">Projects</h2>
+          <div id="projectInputs" class="dynamic-inputs"></div>
+          <button onclick="addProject()">Add Project</button>
+        </div>
+
+        <button onclick="generateResume()" class="print-btn">
+          Generate Resume
+        </button>
+      </div>
+
+      <div class="preview-section">
+        <h2>Resume Preview</h2>
+        <div id="resumePreview" class="preview-content"></div>
+        <button onclick="window.print()" class="print-btn">Print Resume</button>
+      </div>
+    </div>
+  </body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #495057;
+            border-bottom: 2px solid #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .resume-preview {
+            border: 1px solid #6c757d;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Resume Builder</h1>
+
+        
+        <div class="mb-4">
+            <h2 class="section-title">Personal Information</h2>
+            <form id="personal-info">
+                <div class="mb-3">
+                    <label for="full-name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="full-name">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone">
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location">
+                </div>
+            </form>
+        </div>
+
+       
+        <div class="mb-4">
+            <h2 class="section-title">Professional Summary</h2>
+            <textarea class="form-control" id="professional-summary" rows="3"></textarea>
+        </div>
+
+        
+        <div class="mb-4">
+            <h2 class="section-title">Work Experience</h2>
+            <div id="work-experience-list"></div>
+            <button class="btn btn-primary mt-2" id="add-experience">Add Experience</button>
+        </div>
+
+        
+        <div class="mb-4">
+            <h2 class="section-title">Education</h2>
+            <div id="education-list"></div>
+            <button class="btn btn-primary mt-2" id="add-education">Add Education</button>
+        </div>
+
+        
+        <div class="mb-4">
+            <h2 class="section-title">Certifications</h2>
+            <div id="certifications-list"></div>
+            <button class="btn btn-primary mt-2" id="add-certification">Add Certification</button>
+        </div>
+
+        
+        <div class="mb-4">
+            <h2 class="section-title">Projects</h2>
+            <div id="projects-list"></div>
+            <button class="btn btn-primary mt-2" id="add-project">Add Project</button>
+        </div>
+
+        
+        <button class="btn btn-success mb-4" id="generate-resume">Generate Resume</button>
+
+        
+        <div class="resume-preview" id="resume-preview" style="display:none;"></div>
+
+        
+        <button class="btn btn-secondary" id="print-resume" style="display:none;">Print Resume</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addExperienceButton = document.getElementById('add-experience');
+            const workExperienceList = document.getElementById('work-experience-list');
+
+            const addEducationButton = document.getElementById('add-education');
+            const educationList = document.getElementById('education-list');
+
+            const addCertificationButton = document.getElementById('add-certification');
+            const certificationsList = document.getElementById('certifications-list');
+
+            const addProjectButton = document.getElementById('add-project');
+            const projectsList = document.getElementById('projects-list');
+
+            const generateResumeButton = document.getElementById('generate-resume');
+            const resumePreview = document.getElementById('resume-preview');
+            const printResumeButton = document.getElementById('print-resume');
+
+            function createInputGroup(labels) {
+                const div = document.createElement('div');
+                div.classList.add('mb-3');
+                labels.forEach(label => {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.classList.add('form-control', 'mb-2');
+                    input.placeholder = label;
+                    div.appendChild(input);
+                });
+                return div;
+            }
+
+            addExperienceButton.addEventListener('click', () => {
+                const experienceInputs = createInputGroup(['Company Name', 'Position', 'Duration', 'Description']);
+                workExperienceList.appendChild(experienceInputs);
+            });
+
+            addEducationButton.addEventListener('click', () => {
+                const educationInputs = createInputGroup(['Institute Name', 'Degree', 'Year', 'GPA/Score']);
+                educationList.appendChild(educationInputs);
+            });
+
+            addCertificationButton.addEventListener('click', () => {
+                const certificationInputs = createInputGroup(['Certification Name', 'Issuing Organization', 'Year']);
+                certificationsList.appendChild(certificationInputs);
+            });
+
+            addProjectButton.addEventListener('click', () => {
+                const projectInputs = createInputGroup(['Project Name', 'Description', 'Technology Used']);
+                projectsList.appendChild(projectInputs);
+            });
+
+            generateResumeButton.addEventListener('click', () => {
+                let resumeHTML = `<h2>${document.getElementById('full-name').value}</h2>`;
+                resumeHTML += `<p>${document.getElementById('email').value} | ${document.getElementById('phone').value} | ${document.getElementById('location').value}</p>`;
+                resumeHTML += `<h3>Professional Summary</h3><p>${document.getElementById('professional-summary').value}</p>`;
+
+                const experienceEntries = workExperienceList.querySelectorAll('.mb-3');
+                if (experienceEntries.length) {
+                    resumeHTML += `<h3>Work Experience</h3>`;
+                    experienceEntries.forEach(entry => {
+                        const inputs = entry.querySelectorAll('input');
+                        resumeHTML += `<p><strong>${inputs[0].value}</strong>, ${inputs[1].value} (${inputs[2].value})<br>${inputs[3].value}</p>`;
+                    });
+                }
+
+                const educationEntries = educationList.querySelectorAll('.mb-3');
+                if (educationEntries.length) {
+                    resumeHTML += `<h3>Education</h3>`;
+                    educationEntries.forEach(entry => {
+                        const inputs = entry.querySelectorAll('input');
+                        resumeHTML += `<p>${inputs[1].value} from ${inputs[0].value} (${inputs[2].value}) - GPA: ${inputs[3].value}</p>`;
+                    });
+                }
+
+                const certificationEntries = certificationsList.querySelectorAll('.mb-3');
+                if (certificationEntries.length) {
+                    resumeHTML += `<h3>Certifications</h3>`;
+                    certificationEntries.forEach(entry => {
+                        const inputs = entry.querySelectorAll('input');
+                        resumeHTML += `<p>${inputs[0].value}, ${inputs[1].value} (${inputs[2].value})</p>`;
+                    });
+                }
+
+                const projectEntries = projectsList.querySelectorAll('.mb-3');
+                if (projectEntries.length) {
+                    resumeHTML += `<h3>Projects</h3>`;
+                    projectEntries.forEach(entry => {
+                        const inputs = entry.querySelectorAll('input');
+                        resumeHTML += `<p><strong>${inputs[0].value}</strong><br>${inputs[1].value}<br>Technologies: ${inputs[2].value}</p>`;
+                    });
+                }
+
+                resumePreview.innerHTML = resumeHTML;
+                resumePreview.style.display = 'block';
+                printResumeButton.style.display = 'block';
+            });
+
+            printResumeButton.addEventListener('click', () => {
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`<html><head><title>Resume</title></head><body>${resumePreview.innerHTML}</body></html>`);
+                printWindow.document.close();
+                printWindow.print();
+            });
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #eee9f5;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 20px;
+            max-width: 900px;
+        }
+        .section {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section h5 {
+            border-bottom: 2px solid #6a0ad1;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #520ab0;
+        }
+        .resume-preview {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .btn-add {
+            margin-top: 10px;
+            background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+            box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+        }
+
+        .generate-resume{
+            background-image: linear-gradient(to right, #25aae1, #40e495);
+            box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+            overflow: hidden;
+            border-radius: 8px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+
+        .generate-resume:hover:after {
+            top: auto;
+            bottom: 0;
+            height: 100%;
+            border-radius: 8px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    top: 4px;
+    left: 4px;
+    z-index: -1;
+    
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+        }
+
+       
+
+
+        .btn-add::after {
+    content: "";
+    position: absolute;
+    background-color: #000137;
+    border-radius: 8px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    top: 4px;
+    left: 4px;
+    z-index: -1;
+    transition: opacity .3s ease-in-out;
+    opacity: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+        text-align: center;color: #6908af;" class="text-center">Resume Builder</h1>
+
+        
+        <div class="section" id="personal-info">
+            <h5>Personal Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="fullName" placeholder="Full Name">
+                </div>
+                <div class="col-md-6">
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="phone" placeholder="Phone">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="location" placeholder="Location">
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="section" id="professional-summary">
+            <h5>Professional Summary</h5>
+            <textarea class="form-control" id="summary" rows="3" placeholder="Write your professional summary here..."></textarea>
+        </div>
+
+        
+        <div class="section" id="work-experience">
+            <h5>Work Experience</h5>
+            <div id="experience-container"></div>
+            <button class="btn btn-primary btn-add" onclick="addExperience()">Add Experience</button>
+        </div>
+
+        
+        <div class="section" id="education">
+            <h5>Education</h5>
+            <div id="education-container"></div>
+            <button class="btn btn-primary btn-add" onclick="addEducation()">Add Education</button>
+        </div>
+
+        
+        <div class="section" id="certifications">
+            <h5>Certifications</h5>
+            <div id="certification-container"></div>
+            <button class="btn btn-primary btn-add" onclick="addCertification()">Add Certification</button>
+        </div>
+
+        
+        <div class="section" id="projects">
+            <h5>Projects</h5>
+            <div id="project-container"></div>
+            <button class="btn btn-primary btn-add" onclick="addProject()">Add Project</button>
+        </div>
+
+        
+        <div class="text-center">
+            <button class="generate-resume" onclick="generateResume()">Generate Resume</button>
+        </div>
+
+        
+        <div class="resume-preview" id="resume-preview">
+            <h3>Resume Preview</h3>
+            <div id="resume-content"></div>
+            <button class="btn btn-primary btn-add" onclick="window.print()">Print Resume</button>
+        </div>
+    </div>
+
+    <script>
+        function addExperience() {
+            const container = document.getElementById('experience-container');
+            container.innerHTML += `
+                <div class="mb-3">
+                    <input type="text" class="form-control mb-2" placeholder="Company Name">
+                    <input type="text" class="form-control mb-2" placeholder="Position">
+                    <input type="text" class="form-control mb-2" placeholder="Duration">
+                    <textarea class="form-control" rows="2" placeholder="Description"></textarea>
+                </div>`;
+        }
+
+        function addEducation() {
+            const container = document.getElementById('education-container');
+            container.innerHTML += `
+                <div class="mb-3">
+                    <input type="text" class="form-control mb-2" placeholder="Institute Name">
+                    <input type="text" class="form-control mb-2" placeholder="Degree">
+                    <input type="text" class="form-control mb-2" placeholder="Year">
+                    <input type="text" class="form-control" placeholder="GPA/Score">
+                </div>`;
+        }
+
+        function addCertification() {
+            const container = document.getElementById('certification-container');
+            container.innerHTML += `
+                <div class="mb-3">
+                    <input type="text" class="form-control mb-2" placeholder="Certification Name">
+                    <input type="text" class="form-control mb-2" placeholder="Issuing Organization">
+                    <input type="text" class="form-control" placeholder="Year">
+                </div>`;
+        }
+
+        function addProject() {
+            const container = document.getElementById('project-container');
+            container.innerHTML += `
+                <div class="mb-3">
+                    <input type="text" class="form-control mb-2" placeholder="Project Name">
+                    <textarea class="form-control mb-2" rows="2" placeholder="Description"></textarea>
+                    <input type="text" class="form-control" placeholder="Technologies Used">
+                </div>`;
+        }
+
+        function generateResume() {
+            const preview = document.getElementById('resume-content');
+            preview.innerHTML = `
+                <h4>${document.getElementById('fullName').value}</h4>
+                <p>${document.getElementById('email').value} | ${document.getElementById('phone').value} | ${document.getElementById('location').value}</p>
+                <h5>Professional Summary</h5>
+                <p>${document.getElementById('summary').value}</p>
+                <h5>Work Experience</h5>
+                ${document.getElementById('experience-container').innerHTML}
+                <h5>Education</h5>
+                ${document.getElementById('education-container').innerHTML}
+                <h5>Certifications</h5>
+                ${document.getElementById('certification-container').innerHTML}
+                <h5>Projects</h5>
+                ${document.getElementById('project-container').innerHTML}`;
+        }
+    </script>
+</body>
+</html> 
+
+
+
